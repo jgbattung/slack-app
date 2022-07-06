@@ -1,12 +1,12 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import DefaultPage from './components/DefaultPage';
+import Registration from './components/Registration';
 
 function App () {
 	return (
 		<div className="grid h-screen place-items-center">
-			<DefaultPage />
+			<Registration />
 		</div>
 	);
 }

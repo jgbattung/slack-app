@@ -1,8 +1,15 @@
-function DefaultPage () {
+import logo from '/Users/jirehgbattung/AvionBatch19/slack-app/src/assets/logo.png';
+
+function Registration () {
 	return (
 		<div>
-			<h1 className="flex justify-center text-5xl font-bold mb-6">SLACK LOGO HERE</h1>
-			<h2 className="flex justify-center text-3xl font-medium mb-6">Create a New Account</h2>
+			<div className="w-maximum">
+				<img src={logo} alt="Slack Logo" />
+			</div>
+			<div className="mb-8">
+				<h2 className="flex justify-center text-5xl font-extrabold pb-3">Create a New Account</h2>
+				<p className="flex justify-center text-xl font-medium">Fill up the details below to create a new account</p>
+			</div>
 			<div className="w-maximum">
 				<form className="bg-white shadow-lg rounded px-8 pt-6 pb-8 mb-4">
 					<div className="mb-4">
@@ -38,13 +45,21 @@ function DefaultPage () {
 							placeholder="Retype your password"
 						/>
 					</div>
-					<div className="mb-4 flex justify-center text-2xl">
+					<div className="mb-6 flex justify-center text-2xl">
 						<button
-							className="bg-violet-900 mt-5 hover:bg-violet-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+							className="bg-violet-700 w-full mt-5 transition-all hover:bg-violet-800 text-white font-medium py-3 px-6 rounded focus:outline-none focus:shadow-outline"
 							type="button"
 						>
-							Register
+							Create Account
 						</button>
+					</div>
+					<div className="flex justify-center text-lg font-medium">
+						<p>
+							Already have an account?{' '}
+							<span className="text-violet-700 font-bold">
+								<a href={'https://stackoverflow.com/questions/18913559/reactjs-anchor-tag-link'}>Login here.</a>
+							</span>
+						</p>
 					</div>
 				</form>
 			</div>
@@ -52,4 +67,4 @@ function DefaultPage () {
 	);
 }
 
-export default DefaultPage;
+export default Registration;
