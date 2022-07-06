@@ -1,5 +1,8 @@
+
+
 function DefaultPage () {
 	return (
+		
 		<div>
 			<h1 className="flex justify-center text-5xl font-bold mb-6">SLACK LOGO HERE</h1>
 			<h2 className="flex justify-center text-3xl font-medium mb-6">Create a New Account</h2>

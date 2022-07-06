@@ -1,12 +1,16 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Slack_RGB from './Slack_RGB.svg';
 import DefaultPage from './components/DefaultPage';
+import Login from "./components/Login";
 
 function App () {
+	console.log(typeof Slack_RGB)
 	return (
 		<div className="grid h-screen place-items-center">
-			<DefaultPage />
+			{/* <DefaultPage /> */}
+			
+			<Login logo={Slack_RGB}/>
 		</div>
 	);
 }
