@@ -9,7 +9,7 @@ function Registration () {
 
 	const [ alertIncomepleteInput, setalertIncomepleteInput ] = React.useState(false);
 	const [ alertPasswordMatch, setalertPasswordMatch ] = React.useState(false);
-	const [ login, setlogin ] = React.useState(true);
+	const [ loginPage, setLoginPage ] = React.useState(false);
 
 	// function for registering new account
 	const registerHandler = (e: any) => {
@@ -43,10 +43,10 @@ function Registration () {
 	// function for logging in if user already has an account
 	const logInHandler = () => {
 		console.log('connect to Login component');
-		<Login />; // may error na lumalabas dito
+		setLoginPage(true);
 	};
 
-	return (
+	const renderRegistrationForm = (
 		<div>
 			<div className="flex justify-center w-96 m-auto">
 				<img src={logo} className="object-cover" alt="Slack Logo" />
@@ -157,6 +157,8 @@ function Registration () {
 			</div>
 		</div>
 	);
+
+	return <div>{loginPage ? <Login /> : renderRegistrationForm}</div>;
 }
 
 export default Registration;
