@@ -5,7 +5,7 @@ import Registration from './components/Registration';
 
 function App () {
 	return (
-		<div className="grid h-screen place-items-center">
+		<div>
 			<Registration />
 		</div>
 	);
