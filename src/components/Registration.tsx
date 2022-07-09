@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import Login from './Login';
 import logo from '../assets/logo.png';
-import Navbar from './Navbar';
 
 function Registration () {
 	const [ email, setEmail ] = React.useState<string | null>();
@@ -49,7 +48,6 @@ function Registration () {
 
 	const renderRegistrationForm = (
 		<div>
-			<Navbar />
 			<div className="mt-24">
 				<div className="flex justify-center w-96 m-auto">
 					<img src={logo} className="object-cover" alt="Slack Logo" />
