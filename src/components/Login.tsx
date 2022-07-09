@@ -1,19 +1,20 @@
 import { ChangeEvent, FormEvent, useState } from "react"
 import logo from '../assets/logo.png';
+import logIn from "../utilities/logIn";
 
-
-const Login = () => {
-
+function Login () {
     // hooks
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     })
     const [logInResponse, setLogInResponse] = useState({
-        data: '',
-        headers: ''
+        data: {},
+        status: {},
+        errors : [],
+        response: {}
     })
-    console.log(logInResponse)
+    console.log('logInResponse', logInResponse)
     // event handlers
     function handleChange (e: ChangeEvent<HTMLInputElement>) {
         setFormData((prevData) => {
@@ -24,28 +25,15 @@ const Login = () => {
         })
     }
 
-    function handleSubmit (e: FormEvent<HTMLFormElement>) {
+    async function handleSubmit (e: FormEvent<HTMLFormElement>) {
         e.preventDefault()
         console.log('logging in...')
-        async function logIn () {
-            const apiSettings = {
-                method: "post",
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    "email": formData.email,
-                    "password": formData.password,
-                })
-            }
-            const response = await fetch('http://206.189.91.54//api/v1/auth/sign_in', apiSettings)
-            console.log(response)
-            const data = await response.json()
-            setLogInResponse(data)
-        }
-        logIn()
+        const response = await logIn(formData)
+        setLogInResponse(response)
     }
+
+    // variables for rendering
+    const errors = logInResponse.errors || '';
 
     return (
     <div className="flex flex-col justify-center items-center">
@@ -56,7 +44,11 @@ const Login = () => {
         <div className="w-maximum">
             <form className="bg-white shadow-lg rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
                 <div className="mb-4">
-                    {logInResponse.data && <h2 className="text-l bg-green-400 flex justify-center items-center">Success</h2>}
+                    {logInResponse.status === 200 ? 
+                        <h2 className="text-l bg-green-400 flex justify-center items-center">Success</h2>
+                        : 
+                        <h2 className="text-l bg-red-400 flex justify-center items-center">{errors}</h2>
+                    }
                     <label className="block mt-3 text-gray-700 text-2xl font-bold mb-4" htmlFor="email">
                         Email
                     </label>
