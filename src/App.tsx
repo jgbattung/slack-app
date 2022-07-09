@@ -1,16 +1,33 @@
 import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import logo from './logo.svg';
 import './App.css';
-import Slack_RGB from './Slack_RGB.svg';
-import DefaultPage from './components/DefaultPage';
+
+import Registration from './components/Registration';
 import Login from "./components/Login";
+import DefaultPage from './components/DefaultPage';
 
 function App () {
-	console.log(typeof Slack_RGB)
+	const defaultPage = <DefaultPage />
+	const registration = <Registration />
+	const logIn = <Login />
+
 	return (
-		<div className="grid h-screen place-items-center">
-			{/* <DefaultPage /> */}
+		<div className='flex justify-center items-center'>
+			<Router>
+				<Switch>
+					<Route exact path="/">
+						{defaultPage}
+					</Route>
+					<Route exact path="/registration">
+						{registration}
+					</Route>
+					<Route exact path="/log-in">
+						{logIn}
+					</Route>
+				</Switch>
+			</Router>
 			
-			<Login logo={Slack_RGB}/>
 		</div>
 	);
 }

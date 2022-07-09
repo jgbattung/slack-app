@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react';
 import Login from './Login';
 import logo from '../assets/logo.png';
 import Navbar from './Navbar';
-import Slack_RGB from './Slack_RGB.svg';
 
 function Registration () {
 	const [ email, setEmail ] = React.useState<string | null>();
@@ -163,7 +162,7 @@ function Registration () {
 		</div>
 	);
 
-	return <div>{loginPage ? <Login logo={Slack_RGB}/> : renderRegistrationForm}</div>;
+	return <div>{loginPage ? <Login /> : renderRegistrationForm}</div>;
 }
 
 export default Registration;

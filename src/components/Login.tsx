@@ -1,12 +1,8 @@
 import { ChangeEvent, FormEvent, useState } from "react"
+import logo from '../assets/logo.png';
 
-interface LogInProps {
-    logo: string;
-}
 
-const Login = ( props: LogInProps ) => {
-    // props
-    const { logo } = props
+const Login = () => {
 
     // hooks
     const [formData, setFormData] = useState({
@@ -14,9 +10,10 @@ const Login = ( props: LogInProps ) => {
         password: ''
     })
     const [logInResponse, setLogInResponse] = useState({
-        data: ''
+        data: '',
+        headers: ''
     })
-
+    console.log(logInResponse)
     // event handlers
     function handleChange (e: ChangeEvent<HTMLInputElement>) {
         setFormData((prevData) => {
@@ -43,6 +40,7 @@ const Login = ( props: LogInProps ) => {
                 })
             }
             const response = await fetch('http://206.189.91.54//api/v1/auth/sign_in', apiSettings)
+            console.log(response)
             const data = await response.json()
             setLogInResponse(data)
         }
@@ -50,7 +48,7 @@ const Login = ( props: LogInProps ) => {
     }
 
     return (
-    <div>
+    <div className="flex flex-col justify-center items-center">
         <div className="flex justify-center items-center">
             <img src={ logo } className="w-3/6" alt="logo" />
         </div>
