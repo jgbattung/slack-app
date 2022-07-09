@@ -2,19 +2,26 @@ import { ChangeEvent, FormEvent, useState } from "react"
 import logo from '../assets/logo.png';
 import logIn from "../utilities/logIn";
 
+interface apiResponseTypes {
+    data?: any | null,
+    success: boolean,
+    response?: Response,
+    access_token?: string | null,
+    errors: [] | null
+}
+
 function Login () {
     // hooks
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     })
-    const [logInResponse, setLogInResponse] = useState({
-        data: {},
-        status: {},
-        errors : [],
-        response: {}
+    
+    const [logInResponse, setLogInResponse] = useState<apiResponseTypes>({
+        success: false,
+        errors: []
     })
-    console.log('logInResponse', logInResponse)
+    // console.log('logInResponse', logInResponse)
     // event handlers
     function handleChange (e: ChangeEvent<HTMLInputElement>) {
         setFormData((prevData) => {
@@ -29,11 +36,12 @@ function Login () {
         e.preventDefault()
         console.log('logging in...')
         const response = await logIn(formData)
+        console.log(response)
         setLogInResponse(response)
     }
 
     // variables for rendering
-    const errors = logInResponse.errors || '';
+    const errors = logInResponse.errors;
 
     return (
     <div className="flex flex-col justify-center items-center">
@@ -44,7 +52,7 @@ function Login () {
         <div className="w-maximum">
             <form className="bg-white shadow-lg rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
                 <div className="mb-4">
-                    {logInResponse.status === 200 ? 
+                    {logInResponse.success ? 
                         <h2 className="text-l bg-green-400 flex justify-center items-center">Success</h2>
                         : 
                         <h2 className="text-l bg-red-400 flex justify-center items-center">{errors}</h2>

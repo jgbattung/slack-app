@@ -13,13 +13,6 @@ async function userRegistration (user: userRegistrationParams) {
     //     "password": "12345678",
     //     "password_confirmation": "12345678"
     // }
-    const apiResponse = {
-        data: {},
-        status: {},
-        response: {},
-        errors: []
-    }
-
     const apiSettings = {
         method: "post",
         headers: {
@@ -35,10 +28,11 @@ async function userRegistration (user: userRegistrationParams) {
     const response = await fetch('http://206.189.91.54/api/v1/auth/', apiSettings)
     const data = await response.json()
 
-    apiResponse['response'] = response
-    apiResponse['status'] = response.status
-    apiResponse['data'] = data
-    apiResponse['errors'] = data.errors ? data.errors[0] :  []
+    const apiResponse = {
+        success: response.ok,
+        data: data.data,
+        errors: data.errors ? data.errors: []
+    }
     
     return apiResponse;
 }

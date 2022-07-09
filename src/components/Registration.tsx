@@ -2,6 +2,16 @@ import React, { useState, useRef } from 'react';
 import Login from './Login';
 import logo from '../assets/logo.png';
 
+import userRegistration from "../utilities/userRegistration";
+
+// ------API type
+interface apiResponseTypes {
+    success?: boolean;
+    data?: any;
+    errors?: any;
+}
+// ------API type
+
 function Registration () {
 	const [ email, setEmail ] = React.useState<string | null>();
 	const [ password, setPassword ] = React.useState<string | null>();
@@ -11,8 +21,13 @@ function Registration () {
 	const [ alertPasswordMatch, setalertPasswordMatch ] = React.useState(false);
 	const [ loginPage, setLoginPage ] = React.useState(false);
 
+	// ------API register user
+	const [registerUserData, setRegisterInUserData] = React.useState <apiResponseTypes>({})
+	console.log('registerUserData', registerUserData)
+	// ------API register user
+
 	// function for registering new account
-	const registerHandler = (e: any) => {
+	const registerHandler = async (e: any) => {
 		e.preventDefault();
 
 		const pass = e.target.password.value;
@@ -37,7 +52,15 @@ function Registration () {
 			localStorage.setItem('password', JSON.stringify(password));
 			console.log('saved to localStorage');
 			console.log('logged in');
+
+			// ------API fetch
+			console.log('logging in...')
+			const response = await userRegistration({email: email, password: password, password_confirmation: confirmPass})
+			setRegisterInUserData(response)
+			// ------API fetch
 		}
+
+		
 	};
 
 	// function for logging in if user already has an account
