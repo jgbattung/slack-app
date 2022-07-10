@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import Login from './Login';
 import logo from '../assets/logo.png';
+import { Link } from 'react-router-dom';
 
 function Registration () {
 	const [ email, setEmail ] = React.useState<string | null>();
@@ -47,8 +48,8 @@ function Registration () {
 	};
 
 	const renderRegistrationForm = (
-		<div>
-			<div className="mt-24">
+		<div className="flex items-center justify-center h-screen">
+			<div>
 				<div className="flex justify-center w-96 m-auto">
 					<img src={logo} className="object-cover" alt="Slack Logo" />
 				</div>
@@ -106,9 +107,7 @@ function Registration () {
 							<p>
 								Already have an account?{' '}
 								<span className="text-violet-500 font-bold transition-all hover:text-violet-800">
-									<a href="#" onClick={logInHandler}>
-										Login here.
-									</a>
+									<Link to="/log-in">Login here.</Link>
 								</span>
 							</p>
 						</div>
