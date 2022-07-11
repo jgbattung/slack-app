@@ -7,7 +7,8 @@ module.exports = {
 		},
 		extend: {
 			width: {
-				maximum: '40rem'
+				maximum: '40rem',
+				maxx: '50rem'
 			}
 		}
 	},
