@@ -6,11 +6,13 @@ import './App.css';
 import Registration from './components/Registration';
 import Login from "./components/Login";
 import DefaultPage from './components/DefaultPage';
+import Dashboard from './components/Dashboard';
 
 function App () {
 	const defaultPage = <DefaultPage />
 	const registration = <Registration />
 	const logIn = <Login />
+	const dashboard = <Dashboard />
 
 	return (
 		<div className='flex justify-center items-center'>
@@ -24,6 +26,9 @@ function App () {
 					</Route>
 					<Route exact path="/log-in">
 						{logIn}
+					</Route>
+					<Route exact path="/dashboard">
+						{dashboard}
 					</Route>
 				</Switch>
 			</Router>

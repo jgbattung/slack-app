@@ -1,4 +1,5 @@
-import { ChangeEvent, FormEvent, useState } from "react"
+import { ChangeEvent, FormEvent, useEffect, useState } from "react"
+import { useHistory } from "react-router-dom"
 import logo from '../assets/logo.png';
 import logIn from "../utilities/logIn";
 
@@ -11,6 +12,7 @@ interface apiResponseTypes {
 }
 
 function Login () {
+    let history = useHistory();
     // hooks
     const [formData, setFormData] = useState({
         email: '',
@@ -21,7 +23,15 @@ function Login () {
         success: false,
         errors: []
     })
-    // console.log('logInResponse', logInResponse)
+
+    useEffect(()=> {
+        if(logInResponse.success){
+            history.push("/dashboard")
+        } else {
+            console.log(logInResponse.errors)
+        }
+    },[logInResponse])
+    
     // event handlers
     function handleChange (e: ChangeEvent<HTMLInputElement>) {
         setFormData((prevData) => {
