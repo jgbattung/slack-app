@@ -17,9 +17,14 @@ interface listOfUsersParams {
     success?: boolean
     uid: string
 }
+
+interface directMessageProps {
+    setWhoToChat: React.Dispatch<React.SetStateAction<{ uid: string; }>>,
+}
 // ------API type
 
-function DirectMessage (){
+function DirectMessage (props: directMessageProps){
+    const { setWhoToChat } = props
 
     // ------API register user
 	const [userData, setUserData] = useState <apiResponseTypes>({
@@ -41,6 +46,7 @@ function DirectMessage (){
     function handleChat (e: any) {
         console.log('start real time chat with', e.target.name, ' as its uid')
         // The sendMessage utility function
+        setWhoToChat({uid: e.target.name})
     }
 
     
