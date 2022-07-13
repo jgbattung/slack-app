@@ -45,10 +45,10 @@ function Dashboard () {
 				<div className="flex justify-left mt-4 ml-6 text-white text-md font-medium">Direct Messages</div>
 			</div>
 			{/* <div className="grid place-content-center col-span-7 m-2 bg-white border-2 border-gray-300 rounded-2xl"> */}
-			<input
-				type="text"
+			<textarea
+				// type="text"
 				placeholder="Message username/channel"
-				className="rounded-2xl w-full bg-white col-span-7 mb-2 border-2 pl-4"
+				className="rounded-2xl w-full bg-white col-span-7 border-2 border-gray-200 transition-all p-3 align-top focus:outline-none focus:ring ring-1 focus:ring-gray-600"
 			/>
 			{/* </div> */}
 		</div>
