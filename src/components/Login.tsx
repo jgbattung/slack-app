@@ -126,16 +126,14 @@ function Login () {
 
 	const [ invalidLogin, setinvalidLogin ] = useState(false);
 
-	useEffect(
-		() => {
-			if (logInResponse.success) {
-				history.push('/dashboard');
-			} else {
-				console.log(logInResponse.errors);
-			}
-		},
-		[ logInResponse ]
-	);
+	useEffect(()=> {
+		if(logInResponse.success){
+			history.push("/dashboard")
+			localStorage.setItem('userLogIn', JSON.stringify(logInResponse));
+		} else {
+			console.log(logInResponse.errors)
+		}
+	},[logInResponse])
 
 	// event handlers
 	function handleChange (e: ChangeEvent<HTMLInputElement>) {
