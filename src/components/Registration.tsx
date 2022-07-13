@@ -73,7 +73,7 @@ function Registration () {
 	}
 
 	const renderRegistrationForm = (
-		<div className="flex items-center justify-center h-screen">
+		<div className="flex items-center justify-center h-full">
 			<div>
 				<div className="flex justify-center w-96 m-auto">
 					<img src={logo} className="object-cover" alt="Slack Logo" />

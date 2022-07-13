@@ -63,7 +63,7 @@ function Login () {
 	const errors = logInResponse.errors;
 
 	return (
-		<div className="flex flex-col items-center justify-center h-screen">
+		<div className="flex flex-col items-center justify-center h-full">
 			<div className="flex justify-center items-center">
 				<img src={logo} className="w-3/6" alt="logo" />
 			</div>
