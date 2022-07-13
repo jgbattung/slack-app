@@ -1,10 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 
 import Registration from './components/Registration';
-import Login from "./components/Login";
+import Login from './components/Login';
 import DefaultPage from './components/DefaultPage';
 import Dashboard from './components/Dashboard';
 
@@ -15,7 +15,7 @@ function App () {
 	const dashboard = <Dashboard />
 
 	return (
-		<div className='flex justify-center items-center'>
+		<div className="flex justify-center items-center">
 			<Router>
 				<Switch>
 					<Route exact path="/">
@@ -32,7 +32,6 @@ function App () {
 					</Route>
 				</Switch>
 			</Router>
-			
 		</div>
 	);
 }

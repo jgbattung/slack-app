@@ -1,6 +1,7 @@
-import React, { useState, useRef } from 'react';
-import Login from './Login';
+import React, { FormEvent, ChangeEvent } from 'react';
 import logo from '../assets/logo.png';
+import { Link } from 'react-router-dom';
+
 
 import userRegistration from "../utilities/userRegistration";
 
@@ -13,34 +14,44 @@ interface apiResponseTypes {
 // ------API type
 
 function Registration () {
-	const [ email, setEmail ] = React.useState<string | null>();
-	const [ password, setPassword ] = React.useState<string | null>();
-	const [ confirmPassword, setConfirmPassword ] = React.useState<string | null>();
+	const [ formData, setFormData ] = React.useState({
+		email: '',
+		password: '',
+		password_confirmation: ''
+	});
+
+	// ------API register user
+	const [ registerUserData, setRegisterInUserData ] = React.useState<apiResponseTypes>({
+		success: false,
+		data: null,
+		errors: null
+	});
+	console.log('registerUserData', registerUserData);
+	// ------API register user
 
 	const [ alertIncomepleteInput, setalertIncomepleteInput ] = React.useState(false);
 	const [ alertPasswordMatch, setalertPasswordMatch ] = React.useState(false);
-	const [ loginPage, setLoginPage ] = React.useState(false);
+	// const [ loginPage, setLoginPage ] = React.useState(false);
 
-	// ------API register user
-	const [registerUserData, setRegisterInUserData] = React.useState <apiResponseTypes>({})
-	console.log('registerUserData', registerUserData)
-	// ------API register user
+	function handleChange (e: ChangeEvent<HTMLInputElement>) {
+		setFormData((prevFormData) => {
+			return {
+				...prevFormData,
+				[e.target.name]: e.target.value
+			};
+		});
+	}
 
-	// function for registering new account
-	const registerHandler = async (e: any) => {
+	async function handleRegister (e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
+		console.log('registering user');
 
-		const pass = e.target.password.value;
-		const confirmPass = e.target.confirmPassword.value;
-		console.log(`pw: ${pass}`);
-		console.log(`confirm pw: ${confirmPass}`);
-
-		if (!email || !password || !confirmPassword) {
+		if (!formData.email || !formData.password || !formData.password_confirmation) {
 			setalertIncomepleteInput(true);
 			if (alertPasswordMatch) {
 				setalertPasswordMatch(false);
 			}
-		} else if (confirmPass !== pass) {
+		} else if (formData.password !== formData.password_confirmation) {
 			setalertPasswordMatch(true);
 			if (alertIncomepleteInput) {
 				setalertIncomepleteInput(false);
@@ -48,30 +59,23 @@ function Registration () {
 		} else {
 			setalertIncomepleteInput(false);
 			setalertPasswordMatch(false);
-			localStorage.setItem('email', JSON.stringify(email));
-			localStorage.setItem('password', JSON.stringify(password));
-			console.log('saved to localStorage');
 			console.log('logged in');
 
 			// ------API fetch
-			console.log('logging in...')
-			const response = await userRegistration({email: email, password: password, password_confirmation: confirmPass})
-			setRegisterInUserData(response)
+			console.log('logging in...');
+			const response = await userRegistration({
+				email: formData.email,
+				password: formData.password,
+				password_confirmation: formData.password_confirmation
+			});
+			setRegisterInUserData(response);
 			// ------API fetch
 		}
-
-		
-	};
-
-	// function for logging in if user already has an account
-	const logInHandler = () => {
-		console.log('connect to Login component');
-		setLoginPage(true);
-	};
+	}
 
 	const renderRegistrationForm = (
-		<div>
-			<div className="mt-24">
+		<div className="flex items-center justify-center h-screen">
+			<div>
 				<div className="flex justify-center w-96 m-auto">
 					<img src={logo} className="object-cover" alt="Slack Logo" />
 				</div>
@@ -80,7 +84,7 @@ function Registration () {
 					<p className="flex justify-center text-xl">Register to start collaborating with your team!</p>
 				</div>
 				<div className="w-maximum m-auto">
-					<form onSubmit={registerHandler} className="bg-white shadow-lg rounded px-8 pt-6 pb-8 mb-4">
+					<form onSubmit={handleRegister} className="bg-white shadow-lg rounded px-8 pt-6 pb-8 mb-4">
 						<div className="mb-4">
 							<label className="block mt-3 text-gray-700 text-2xl font-bold mb-4" htmlFor="email">
 								Email
@@ -89,8 +93,10 @@ function Registration () {
 								className="shadow mb-5 appearance-none text-lg border rounded w-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 								id="email"
 								type="text"
+								name="email"
 								placeholder="Enter your email"
-								onChange={(e) => setEmail(e.target.value)}
+								onChange={handleChange}
+								value={formData.email}
 							/>
 						</div>
 						<div className="mb-4">
@@ -101,8 +107,10 @@ function Registration () {
 								className="shadow mb-5 appearance-none text-lg border rounded w-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 								id="password"
 								type="password"
+								name="password"
 								placeholder="Create a password"
-								onChange={(e) => setPassword(e.target.value)}
+								onChange={handleChange}
+								value={formData.password}
 							/>
 						</div>
 						<div className="mb-4">
@@ -113,8 +121,10 @@ function Registration () {
 								className="shadow appearance-none text-lg border rounded w-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 								id="confirmPassword"
 								type="password"
+								name="password_confirmation"
 								placeholder="Retype your password"
-								onChange={(e) => setConfirmPassword(e.target.value)}
+								onChange={handleChange}
+								value={formData.password_confirmation}
 							/>
 						</div>
 						<div className="mb-6 flex justify-center text-2xl">
@@ -129,9 +139,7 @@ function Registration () {
 							<p>
 								Already have an account?{' '}
 								<span className="text-violet-500 font-bold transition-all hover:text-violet-800">
-									<a href="#" onClick={logInHandler}>
-										Login here.
-									</a>
+									<Link to="/log-in">Login here.</Link>
 								</span>
 							</p>
 						</div>
@@ -183,7 +191,8 @@ function Registration () {
 		</div>
 	);
 
-	return <div>{loginPage ? <Login /> : renderRegistrationForm}</div>;
+	// return <div>{loginPage ? <Login /> : renderRegistrationForm}</div>;
+	return <div>{renderRegistrationForm}</div>;
 }
 
 export default Registration;
