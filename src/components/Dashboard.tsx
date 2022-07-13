@@ -44,9 +44,13 @@ function Dashboard () {
 			<div className="row-span-4 col-span-1 bg-fuchsia-800 border border-solid border-l-0 border-white">
 				<div className="flex justify-left mt-4 ml-6 text-white text-md font-medium">Direct Messages</div>
 			</div>
-			<div className="grid place-content-center col-span-7 m-2 bg-white border-2 border-gray-300 rounded-2xl">
-				<input type="text" placeholder="Message username/channel" className="rounded-md w-fit" />
-			</div>
+			{/* <div className="grid place-content-center col-span-7 m-2 bg-white border-2 border-gray-300 rounded-2xl"> */}
+			<input
+				type="text"
+				placeholder="Message username/channel"
+				className="rounded-2xl w-full bg-white col-span-7 mb-2 border-2 pl-4"
+			/>
+			{/* </div> */}
 		</div>
 	);
 }
