@@ -1,12 +1,23 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DirectMessage from './DirectMessage';
 import RealTimeChat from './RealTimeChat';
 import logo from '../assets/logo-white.png';
+import Modal from '../ui/Modal';
 
-function Dashboard () {
+function Dashboard (props: any) {
 	const [ whoToChat, setWhoToChat ] = useState({
 		uid: ''
 	});
+
+	const [ modalIsOpen, setModalIsOpen ] = useState(false);
+
+	function openModal () {
+		setModalIsOpen(true);
+	}
+
+	function closeModal () {
+		setModalIsOpen(false);
+	}
 
 	useEffect(
 		() => {
@@ -18,6 +29,7 @@ function Dashboard () {
 
 	return (
 		<div className="w-screen h-screen grid grid-rows-7 grid-cols-8 bg-white">
+			{modalIsOpen && <Modal onCancel={closeModal} />}
 			<div className="grid grid-cols-3 place-content-around text-white row-span-1 col-span-8 bg-fuchsia-900 border border-t-0 border-b-0 border-l-0 border-solid border-white">
 				<div className="ml-10 place-self-start">
 					<img src={logo} className="w-32" alt="Slack Logo White" />
@@ -52,7 +64,10 @@ function Dashboard () {
 			<div className="row-span-2 col-span-1 bg-fuchsia-800 border border-solid border-b-0 border-l-0 border-white">
 				<div className="flex items-center">
 					<div className="flex justify-left mt-4 ml-6 text-white text-md font-medium">Channels</div>
-					<div className="flex justify-right mt-4 ml-2 text-yellow-300 text-2xl font-black hover:text-yellow-600 cursor-pointer transition-all">
+					<div
+						onClick={openModal}
+						className="flex justify-right mt-4 ml-2 text-yellow-300 text-2xl font-black hover:text-yellow-600 cursor-pointer transition-all"
+					>
 						&#43;
 					</div>
 				</div>

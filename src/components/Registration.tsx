@@ -29,6 +29,17 @@ function Registration () {
 	console.log('registerUserData', registerUserData);
 	// ------API register user
 
+	let history = useHistory();
+
+	useEffect(
+		() => {
+			if (registerUserData.success) {
+				history.push('/login');
+			}
+		},
+		[ registerUserData ]
+	);
+
 	const [ alertIncomepleteInput, setalertIncomepleteInput ] = React.useState(false);
 	const [ alertPasswordMatch, setalertPasswordMatch ] = React.useState(false);
 	// const [ loginPage, setLoginPage ] = React.useState(false);
@@ -73,14 +84,6 @@ function Registration () {
 			// ------API fetch
 		}
 	}
-
-	// let history = useHistory();
-
-	// useEffect(() => {
-	// 	if (registerUserData.success) {
-	// 		history.push('/login');
-	// 	}
-	// }, []);
 
 	const renderRegistrationForm = (
 		<div className="flex items-center justify-center h-screen">

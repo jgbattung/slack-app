@@ -31,6 +31,7 @@ function Login () {
 		() => {
 			if (logInResponse.success) {
 				history.push('/dashboard');
+				localStorage.setItem('userLogIn', JSON.stringify(logInResponse));
 			} else {
 				console.log(logInResponse.errors);
 			}
