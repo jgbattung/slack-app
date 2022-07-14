@@ -19,7 +19,7 @@ interface listOfUsersParams {
 }
 
 interface directMessageProps {
-    setWhoToChat: React.Dispatch<React.SetStateAction<{ uid: string; }>>,
+    setWhoToChat: React.Dispatch<React.SetStateAction<{ uid: string, id: number }>>
 }
 // ------API type
 
@@ -30,11 +30,12 @@ function DirectMessage (props: directMessageProps){
 	const [userData, setUserData] = useState <apiResponseTypes>({
         data: []
     })
+    const [listRange, setListRange] = useState([0,5])
 
     useEffect( () => {
-        console.log('fetching')
+        // console.log('fetching')
         const userData = JSON.parse(localStorage.getItem('userLogIn')  || '{}')
-        console.log(userData)
+        // console.log(userData)
 
         const getUsers = async (userData: listOfUsersParams) => {
             const response = await listOfAllUsers(userData)
@@ -44,21 +45,37 @@ function DirectMessage (props: directMessageProps){
     }, [])
 
     function handleChat (e: any) {
-        console.log('start real time chat with', e.target.name, ' as its uid')
-        // The sendMessage utility function
-        setWhoToChat({uid: e.target.name})
+        setWhoToChat({uid: e.target.name, id: e.target.id})
     }
 
-    
-    const listOfUsers = userData.data.map( (user: any, index: number) => {
-        return <button className='rounded-full bg-purple-300 p-1 m-1 hover:ring-1 hover:ring-purple-600' key={user.id} onClick={handleChat} name={user.uid}>{user.uid}</button>
+    function handleUp () {
+        setListRange((prevData) => {
+            if(prevData[0] === 0){
+                return prevData
+            }
+            return [prevData[0]-1, prevData[1]-1]
+        })
+    }
+
+    function handleDown () {
+        setListRange((prevData) => {
+            if(prevData[1] === prevData.length-1){
+                return prevData
+            }
+            return [prevData[0]+1, prevData[1]+1]
+        })
+    }
+
+    const slicedData = userData.data.slice(listRange[0], listRange[1])
+    const listOfUsers = slicedData.map( (user: any, index: number) => {
+        return <button className='rounded-full bg-purple-300 hover:ring-1 m-1 p-1 hover:ring-purple-600 truncate text-xs' key={user.id} onClick={handleChat} name={user.uid} id={user.id} >{user.uid}</button>
     })
-    console.log(listOfUsers)
 
     return (
-        <div className='flex flex-col justify-center items-start'>
-            <div>DirectMessage</div>
+        <div className="flex flex-col justify-between">
+            <button className="rounded-full bg-purple-300" onClick={handleUp}>⮙</button>
             {listOfUsers.length === 0 ?  <div>Loading...</div> : listOfUsers }
+            <button className="rounded-full bg-purple-300" onClick={handleDown}>⮛</button>
         </div>
     )
 }

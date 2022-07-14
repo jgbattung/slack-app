@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { useHistory, Link } from "react-router-dom"
+
 import logo from '../assets/logo.png';
 import logIn from "../utilities/logIn";
 
@@ -49,7 +50,7 @@ function Login () {
 		e.preventDefault();
 		console.log('logging in...');
 		const response = await logIn(formData);
-		console.log(response);
+		// console.log(response);
 		setLogInResponse(response);
 		if (logInResponse.success === false) {
 			setinvalidLogin(true);
@@ -57,27 +58,26 @@ function Login () {
 	}
 
 	// variables for rendering
-	const errors = logInResponse.errors;
+	// const errors = logInResponse.errors;
 
 	return (
 		<div className="flex flex-col items-center justify-center h-screen">
-			<div className="flex justify-center items-center">
-				<img src={logo} className="w-3/6" alt="logo" />
+			<div className="flex justify-center w-72 m-auto">
+				<img src={logo} className="object-cover" alt="Slack Logo" />
 			</div>
-			<div className="mb-8">
-				<h2 className="flex justify-center text-5xl font-extrabold pb-3">Login to Your Account!</h2>
-				<p className="flex justify-center text-xl">Start collaborating with your team!</p>
+			<div>
+				<h2 className="flex justify-center text-3xl font-bold pb-3">Login to Your Account!</h2>
+				<p className="flex justify-center text-lg">Start collaborating with your team!</p>
 			</div>
 
-			<div className="w-maximum">
+			<div className="w-96 m-auto">
 				<form className="bg-white shadow-lg rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
 					<div className="mb-4">
-						{logInResponse.data && <h2 className="text-l bg-green-400 flex justify-center items-center">Success</h2>}
-						<label className="block mt-3 text-gray-700 text-2xl font-bold mb-4" htmlFor="email">
+						<label className="block mt-3 text-gray-700 text-xl font-bold mb-4" htmlFor="email">
 							Email
 						</label>
 						<input
-							className="shadow mb-5 appearance-none text-lg border rounded w-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+							className="shadow mb-5 appearance-none text-base border rounded w-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 							id="email"
 							type="email"
 							placeholder="Enter your email"
@@ -87,11 +87,11 @@ function Login () {
 						/>
 					</div>
 					<div className="mb-4">
-						<label className="block text-gray-700 text-2xl font-bold mb-4" htmlFor="password">
+						<label className="block text-gray-700 text-xl font-bold mb-4" htmlFor="password">
 							Password
 						</label>
 						<input
-							className="shadow mb-5 appearance-none text-lg border rounded w-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+							className="shadow appearance-none text-lg border rounded w-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 							id="password"
 							type="password"
 							placeholder="Enter your password"
@@ -100,18 +100,18 @@ function Login () {
 							onChange={handleChange}
 						/>
 					</div>
-					<div className="mb-4 flex justify-center text-2xl">
+					<div className="mb-4 flex justify-center text-base">
 						<button
-							className="bg-violet-700 w-full mt-5 transition-all hover:bg-violet-900 text-white font-medium py-3 px-6 rounded focus:outline-none focus:shadow-outline"
+							className="bg-fuchsia-700 w-full mt-5 transition-all hover:bg-fuchsia-900 text-white font-medium py-3 px-6 rounded focus:outline-none focus:shadow-outline"
 							type="submit"
 						>
 							Log In
 						</button>
 					</div>
-					<div className="flex justify-center text-lg font-medium">
+					<div className="flex justify-center text-base font-medium">
 						<p>
 							Don't have an account?{' '}
-							<span className="text-violet-500 font-bold transition-all hover:text-violet-800">
+							<span className="text-fuchsia-700 font-bold transition-all hover:text-fuchsia-800">
 								<Link to="/registration">Register here.</Link>
 							</span>
 						</p>
@@ -119,7 +119,7 @@ function Login () {
 					{/* code for displaying login error */}
 					{invalidLogin && (
 						<div
-							className="bg-red-100 border text-lg mt-5 border-red-400 text-red-700 px-4 py-3 rounded relative"
+							className="bg-red-100 border text-base mt-5 border-red-400 text-red-700 px-4 py-3 rounded relative"
 							role="alert"
 						>
 							<strong className="font-bold">Error! </strong>

@@ -21,7 +21,7 @@ async function listOfAllUsers (user: listOfUsersParams) {
             'client': user.client
         }
     }
-    console.log('getting data...')
+    // console.log('getting data...')
     const response = await fetch('http://206.189.91.54/api/v1/users', apiSettings)
     const data = await response.json()
 

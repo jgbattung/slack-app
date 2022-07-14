@@ -1,11 +1,10 @@
 interface retrieveMessageParams {
     receiver_id: number
-    receiver_class: string
-    body: string
+    receiver_class: "User" | "Class"
     access_token: string,
     client: string,
     expiry: string,
-    uid: string
+    uid: string,
 }
 
 async function retrieveMessage (user: retrieveMessageParams) {
@@ -19,9 +18,8 @@ async function retrieveMessage (user: retrieveMessageParams) {
     // client	Yes
     // expiry	Yes
     // uid	Yes
-    const receiverId = 1
     const apiSettings = {
-        method: "post",
+        method: "Get",
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -31,8 +29,11 @@ async function retrieveMessage (user: retrieveMessageParams) {
             'client':user.client
         }
     }
-    const response = await fetch(`http://206.189.91.54/api/v1/messages?receiver_id=${receiverId}&receiver_class=User`, apiSettings)
+    const response = await fetch(`http://206.189.91.54/api/v1/messages?receiver_id=${user.receiver_id}&receiver_class=${user.receiver_class}`, apiSettings)
     const data = await response.json()
+
+    console.log(response)
+    console.log(data)
 
     const apiResponse = {
         success: response.ok,

@@ -76,21 +76,21 @@ function Registration () {
 	const renderRegistrationForm = (
 		<div className="flex items-center justify-center h-screen">
 			<div>
-				<div className="flex justify-center w-96 m-auto">
+				<div className="flex justify-center w-72 m-auto">
 					<img src={logo} className="object-cover" alt="Slack Logo" />
 				</div>
-				<div className="mb-8">
-					<h2 className="flex justify-center text-5xl font-extrabold pb-3">Create a New Account</h2>
-					<p className="flex justify-center text-xl">Register to start collaborating with your team!</p>
+				<div>
+					<h2 className="flex justify-center text-3xl font-bold pb-3">Create a New Account</h2>
+					<p className="flex justify-center text-lg">Register to start collaborating with your team!</p>
 				</div>
-				<div className="w-maximum m-auto">
+				<div className="w-96 m-auto mt-7">
 					<form onSubmit={handleRegister} className="bg-white shadow-lg rounded px-8 pt-6 pb-8 mb-4">
 						<div className="mb-4">
-							<label className="block mt-3 text-gray-700 text-2xl font-bold mb-4" htmlFor="email">
+							<label className="block mt-3 text-gray-700 text-xl font-bold mb-4" htmlFor="email">
 								Email
 							</label>
 							<input
-								className="shadow mb-5 appearance-none text-lg border rounded w-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+								className="shadow appearance-none text-lg border rounded w-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 								id="email"
 								type="text"
 								name="email"
@@ -100,11 +100,11 @@ function Registration () {
 							/>
 						</div>
 						<div className="mb-4">
-							<label className="block text-gray-700 text-2xl font-bold mb-4" htmlFor="password">
+							<label className="block text-gray-700 text-xl font-bold mb-4" htmlFor="password">
 								Password
 							</label>
 							<input
-								className="shadow mb-5 appearance-none text-lg border rounded w-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+								className="shadow appearance-none text-lg border rounded w-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 								id="password"
 								type="password"
 								name="password"
@@ -114,7 +114,7 @@ function Registration () {
 							/>
 						</div>
 						<div className="mb-4">
-							<label className="block text-gray-700 text-2xl font-bold mb-4" htmlFor="confirmPassword">
+							<label className="block text-gray-700 text-xl font-bold mb-4" htmlFor="confirmPassword">
 								Confirm your password
 							</label>
 							<input
@@ -127,18 +127,18 @@ function Registration () {
 								value={formData.password_confirmation}
 							/>
 						</div>
-						<div className="mb-6 flex justify-center text-2xl">
+						<div className="mb-6 flex justify-center text-base">
 							<button
-								className="bg-violet-700 w-full mt-5 transition-all hover:bg-violet-900 text-white font-medium py-3 px-6 rounded focus:outline-none focus:shadow-outline"
+								className="bg-fuchsia-700 w-full mt-5 transition-all hover:bg-fuchsia-900 text-white font-medium py-3 px-6 rounded focus:outline-none focus:shadow-outline"
 								type="submit"
 							>
 								Create Account
 							</button>
 						</div>
-						<div className="flex justify-center text-lg font-medium">
+						<div className="flex justify-center text-base font-medium">
 							<p>
 								Already have an account?{' '}
-								<span className="text-violet-500 font-bold transition-all hover:text-violet-800">
+								<span className="text-fuchsia-700 font-bold transition-all hover:text-fuchsia-800">
 									<Link to="/log-in">Login here.</Link>
 								</span>
 							</p>
@@ -146,7 +146,7 @@ function Registration () {
 
 						{alertIncomepleteInput && (
 							<div
-								className="bg-red-100 border text-lg mt-5 border-red-400 text-red-700 px-4 py-3 rounded relative"
+								className="bg-red-100 border text-base mt-5 border-red-400 text-red-700 px-4 py-3 rounded relative"
 								role="alert"
 							>
 								<strong className="font-bold">Error! </strong>
@@ -167,7 +167,7 @@ function Registration () {
 
 						{alertPasswordMatch && (
 							<div
-								className="bg-red-100 border text-lg mt-5 border-red-400 text-red-700 px-4 py-3 rounded relative"
+								className="bg-red-100 border text-base mt-5 border-red-400 text-red-700 px-4 py-3 rounded relative"
 								role="alert"
 							>
 								<strong className="font-bold">Error! </strong>

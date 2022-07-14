@@ -1,41 +1,54 @@
 import React from 'react';
-import logoWhite from '../assets/logo-white.png';
+import logo from '../assets/logo.png';
 import { Link } from 'react-router-dom';
 
 function DefaultPage () {
 	return (
-		<div className="h-screen w-screen bg-violet-900 flex items-center justify-center">
-			<div>
-				<div className="w-maximum m-auto ">
-					<img src={logoWhite} />
+		<div className="h-screen w-screen bg-white">
+			{/* flex items-center justify-center overflow-hidden */}
+			<div className="grid grid-cols-2 w-full mt-20">
+				<div className="ml-40">
+					<img src={logo} className="w-48" />
 				</div>
-				<div className="m-4">
-					<h1 className="text-white flex justify-center text-3xl subpixel-antialiased font-bold">Where the Future Works</h1>
-				</div>
-				<div className="mt-10 max-w-lg border-4 bg-slate-200 border-zinc-500 rounded overflow-hidden shadow-lg m-auto">
-					<Link to="/log-in">
-						<div className="flex justify-center space-x-10 px-6 py-4 mt-4">
-							<div className="flex justify-center">
-								<button
-									type="button"
-									className="text-white bg-gradient-to-r w-64 from-violet-700 via-violet-800 to-violet-900 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-lg px-5 py-2.5 text-center"
-								>
-									Log in
-								</button>
-							</div>
-						</div>
-					</Link>
+				<div className="flex flex-row-reverse items-center mr-40">
 					<Link to="/registration">
-						<div className="flex justify-center space-x-10 px-6 py-4 mb-4">
-							<div className="flex justify-center">
-								<button className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 w-60 text-lg">
-									<span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-slate-200 rounded-md group-hover:bg-opacity-0 w-60 text-black hover:text-white text-lg">
-										Register
-									</span>
-								</button>
-							</div>
+						<div className="ml-8">
+							<button className="text-white bg-gradient-to-r from-fuchsia-700 via-fuchsia-800 to-fuchsia-900 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg px-6 py-3 text-center transition-all">
+								Register
+							</button>
 						</div>
 					</Link>
+					<Link to="/log-in">
+						<div>
+							<button className="text-fuchsia-900 font-semibold hover:bg-fuchsia-200 px-6 py-3 rounded-lg transition-all">
+								Login
+							</button>
+						</div>
+					</Link>
+				</div>
+			</div>
+			<div className="grid grid-cols-2 w-full mt-40 place-items-center">
+				<div className="ml-40 pr-10">
+					<h1 className="mb-8 text-5xl font-extrabold">Where the Future Works</h1>
+					<p className="mb-8">
+						Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad quasi, odit alias deserunt adipisci aliquam a
+						inventore explicabo officia provident obcaecati eaque.
+					</p>
+					<Link to="/registration">
+						<div>
+							<button className="text-white bg-gradient-to-r from-fuchsia-700 via-fuchsia-800 to-fuchsia-900 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-extrabold text-2xl rounded-lg px-8 py-4 text-center transition-all">
+								Register
+							</button>
+						</div>
+					</Link>
+				</div>
+				<div className="relative w-full max-w-lg">
+					<div className="absolute top-0 -left-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob" />
+					<div className="absolute top-0 -right-4 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000" />
+					<div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000" />
+					<div className="m-8 relative space-y-4">
+						<div className="flex items-center justify-center">SCREENSHOT OF APP HERE</div>
+					</div>
 				</div>
 			</div>
 		</div>

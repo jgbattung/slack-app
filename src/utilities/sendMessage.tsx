@@ -1,11 +1,11 @@
 interface sendMessageParams {
     receiver_id: number
-    receiver_class: string
+    receiver_class: "User" | "Class"
     body: string
     access_token: string,
     client: string,
     expiry: string,
-    uid: string
+    uid: string,
 }
 
 async function sendMessage (user: sendMessageParams) {
@@ -22,8 +22,9 @@ async function sendMessage (user: sendMessageParams) {
     // client	        Yes
     // expiry	        Yes
     // uid	            Yes
-    const apiSettings = {
+    const apiSettings: RequestInit = {
         method: "post",
+        // mode: "no-cors",
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -39,7 +40,7 @@ async function sendMessage (user: sendMessageParams) {
         })
     
     }
-    const response = await fetch('http://206.189.91.54/messages', apiSettings)
+    const response = await fetch('http://206.189.91.54/api/v1/messages', apiSettings)
     const data = await response.json()
 
     const apiResponse = {
@@ -47,8 +48,6 @@ async function sendMessage (user: sendMessageParams) {
         data: data.data,
         errors: data.data | data.errors
     }
-    
-
     return apiResponse;
 }
 export default sendMessage;
