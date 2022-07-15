@@ -1,15 +1,15 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react"
-import { useHistory, Link } from "react-router-dom"
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { useHistory, Link } from 'react-router-dom';
 
 import logo from '../assets/logo.png';
-import logIn from "../utilities/logIn";
+import logIn from '../utilities/logIn';
 
 interface apiResponseTypes {
-    data?: any | null,
-    success: boolean,
-    response?: Response,
-    access_token?: string | null,
-    errors: [] | null
+	data?: any | null;
+	success: boolean;
+	response?: Response;
+	access_token?: string | null;
+	errors: [] | null;
 }
 
 function Login () {
@@ -27,14 +27,17 @@ function Login () {
 
 	const [ invalidLogin, setinvalidLogin ] = useState(false);
 
-	useEffect(()=> {
-		if(logInResponse.success){
-			history.push("/dashboard")
-			localStorage.setItem('userLogIn', JSON.stringify(logInResponse));
-		} else {
-			console.log(logInResponse.errors)
-		}
-	},[logInResponse])
+	useEffect(
+		() => {
+			if (logInResponse.success) {
+				history.push('/dashboard');
+				localStorage.setItem('userLogIn', JSON.stringify(logInResponse));
+			} else {
+				console.log(logInResponse.errors);
+			}
+		},
+		[ logInResponse ]
+	);
 
 	// event handlers
 	function handleChange (e: ChangeEvent<HTMLInputElement>) {

@@ -4,13 +4,6 @@ interface logInParams {
 }
 
 async function logIn (user: logInParams) {
-	// HTTP Method: POST
-	// URL: {{url}}/api/v1/auth/sign_in
-	// {
-	//     "email": "meline@hotmail.com",
-	//     "password": "12345678"
-	// }
-
 	const apiSettings = {
 		method: 'post',
 		headers: {
