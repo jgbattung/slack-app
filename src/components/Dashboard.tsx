@@ -125,7 +125,9 @@ function Dashboard (props: any) {
 			</div>
 			<div className="row-span-5 col-span-7 border border-solid border-white bg-white">
 				<div className="bg-white border border-zinc-400 border-solid border-b-1 border-t-0 border-l-0 border-r-0">
-					<div className="ml-6 pt-4 pb-4 text-lg font-bold">Channel Name or Contact Name</div>
+					<div className="ml-6 pt-4 pb-4 text-lg font-bold">
+						{whoToChat.uid ? `Send to ${whoToChat.uid}` : 'Send to User or Chat'}
+					</div>
 				</div>
 				<div className="mt-4 ml-6">Chat Field</div>
 			</div>
@@ -137,13 +139,21 @@ function Dashboard (props: any) {
 						&#43;
 					</div>
 				</div>
+				<div>
+					<DirectMessage setWhoToChat={setWhoToChat} />
+				</div>
 			</div>
 			<div className="w-full col-span-7 relative mb-4">
 				<textarea
 					placeholder="Message username/channel"
 					className="rounded-2xl w-full h-full bg-white col-span-7 border-2 border-gray-200 transition-all p-3 align-top focus:outline-none focus:ring ring-1 focus:ring-gray-600"
+					value={message}
+					onChange={handleChatChange}
 				/>
-				<button className="bg-fuchsia-700 absolute top-0 right-0 h-full transition-all hover:bg-fuchsia-900 text-white font-semibold py-3 px-6 rounded-xl focus:outline-none focus:shadow-outline">
+				<button
+					className="bg-fuchsia-700 absolute top-0 right-0 h-full transition-all hover:bg-fuchsia-900 text-white font-semibold py-3 px-6 rounded-xl focus:outline-none focus:shadow-outline"
+					onClick={handleSendMessage}
+				>
 					<svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
 						<path
 							fillRule="evenodd"
