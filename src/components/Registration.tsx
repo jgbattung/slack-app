@@ -1,6 +1,7 @@
-import React, { FormEvent, ChangeEvent } from 'react';
+import React, { FormEvent, ChangeEvent, useEffect } from 'react';
 import logo from '../assets/logo.png';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 
 import userRegistration from "../utilities/userRegistration";
@@ -28,6 +29,17 @@ function Registration () {
 	});
 	console.log('registerUserData', registerUserData);
 	// ------API register user
+
+	let history = useHistory();
+
+	useEffect(
+		() => {
+			if (registerUserData.success) {
+				history.push('/login');
+			}
+		},
+		[ registerUserData ]
+	);
 
 	const [ alertIncomepleteInput, setalertIncomepleteInput ] = React.useState(false);
 	const [ alertPasswordMatch, setalertPasswordMatch ] = React.useState(false);
@@ -69,6 +81,7 @@ function Registration () {
 				password_confirmation: formData.password_confirmation
 			});
 			setRegisterInUserData(response);
+
 			// ------API fetch
 		}
 	}

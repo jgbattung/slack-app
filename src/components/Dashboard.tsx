@@ -1,75 +1,86 @@
-import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
-import CreateChannel from "./CreateChannel";
-import DirectMessage from "./DirectMessage";
-import RealTimeChat from "./RealTimeChat";
+import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
+import CreateChannel from './CreateChannel';
+import DirectMessage from './DirectMessage';
+import RealTimeChat from './RealTimeChat';
 import logo from '../assets/logo-white.png';
-import sendMessage from "../utilities/sendMessage";
-import retrieveMessage from "../utilities/retrieveMessage";
+import sendMessage from '../utilities/sendMessage';
+import retrieveMessage from '../utilities/retrieveMessage';
+import Modal from '../ui/Modal';
 
 interface sendMessageTypes {
-    receiver_id: number
-    receiver_class: "User" | "Class"
-    body: string
-    access_token: string,
-    client: string,
-    expiry: string,
-    uid: string,
+	receiver_id: number;
+	receiver_class: 'User' | 'Class';
+	body: string;
+	access_token: string;
+	client: string;
+	expiry: string;
+	uid: string;
 }
 
-function Dashboard () {
-    const [whoToChat, setWhoToChat] = useState({
-        uid: '',
-        id: 0
-    })
-    const [usersListOfUID, setUsersListOfUID] = useState({
-        // this is for the channels
-    })
-    const [message, setMessage] = useState('')
+function Dashboard (props: any) {
+	const [ whoToChat, setWhoToChat ] = useState({
+		uid: '',
+		id: 0
+	});
+	const [ usersListOfUID, setUsersListOfUID ] = useState(
+		{
+			// this is for the channels
+		}
+	);
+	const [ message, setMessage ] = useState('');
 
-    // return (
-    //     <div className="flex flex-col justify-center items-center">
-    //         <CreateChannel />
-    //         <div>{whoToChat.uid}</div>
-    //         <DirectMessage setWhoToChat={setWhoToChat}/>
-            
-    //     </div>
-    // )
-
-    function handleChatChange (e: ChangeEvent<HTMLTextAreaElement>) {
-        setMessage(e.target.value)
+	function handleChatChange (e: ChangeEvent<HTMLTextAreaElement>) {
+		setMessage(e.target.value);
 	}
 
-    async function handleSendMessage (e: MouseEvent<HTMLElement>){
-        const userData = JSON.parse(localStorage.getItem('userLogIn')  || '{}')
-        const sendMessageResponse = await sendMessage({
-            receiver_id: whoToChat.id,
-            receiver_class: "User",
-            body: message,
-            access_token: userData.access_token,
-            client: userData.client,
-            expiry: userData.expiry,
-            uid: userData.uid,
-        })
+	async function handleSendMessage (e: MouseEvent<HTMLElement>) {
+		const userData = JSON.parse(localStorage.getItem('userLogIn') || '{}');
+		const sendMessageResponse = await sendMessage({
+			receiver_id: whoToChat.id,
+			receiver_class: 'User',
+			body: message,
+			access_token: userData.access_token,
+			client: userData.client,
+			expiry: userData.expiry,
+			uid: userData.uid
+		});
 
-        if(sendMessageResponse.success){
-            setMessage('')
-            const retrieveMessageResponse = await retrieveMessage({
-                receiver_id: whoToChat.id,
-                receiver_class: "User",
-                access_token: userData.access_token,
-                client: userData.client,
-                expiry: userData.expiry,
-                uid: userData.uid,
-            })
+		if (sendMessageResponse.success) {
+			setMessage('');
+			const retrieveMessageResponse = await retrieveMessage({
+				receiver_id: whoToChat.id,
+				receiver_class: 'User',
+				access_token: userData.access_token,
+				client: userData.client,
+				expiry: userData.expiry,
+				uid: userData.uid
+			});
 
-            console.log(retrieveMessageResponse)
-        }
+			console.log(retrieveMessageResponse);
+		}
+	}
 
-    }
+	const [ modalIsOpen, setModalIsOpen ] = useState(false);
 
+	function openModal () {
+		setModalIsOpen(true);
+	}
 
-    return (
+	function closeModal () {
+		setModalIsOpen(false);
+	}
+
+	useEffect(
+		() => {
+			// call the send message utility function here
+			console.log(whoToChat.uid);
+		},
+		[ whoToChat ]
+	);
+
+	return (
 		<div className="w-screen h-screen grid grid-rows-7 grid-cols-8 bg-white">
+			{modalIsOpen && <Modal onCancel={closeModal} />}
 			<div className="grid grid-cols-3 place-content-around text-white row-span-1 col-span-8 bg-fuchsia-900 border border-t-0 border-b-0 border-l-0 border-solid border-white">
 				<div className="ml-10 place-self-start">
 					<img src={logo} className="w-32" alt="Slack Logo White" />
@@ -104,14 +115,17 @@ function Dashboard () {
 			<div className="row-span-2 col-span-1 bg-fuchsia-800 border border-solid border-b-0 border-l-0 border-white">
 				<div className="flex items-center">
 					<div className="flex justify-left mt-4 ml-6 text-white text-md font-medium">Channels</div>
-					<div className="flex justify-right mt-4 ml-2 text-yellow-300 text-2xl font-black hover:text-yellow-600 cursor-pointer transition-all">
+					<div
+						onClick={openModal}
+						className="flex justify-right mt-4 ml-2 text-yellow-300 text-2xl font-black hover:text-yellow-600 cursor-pointer transition-all"
+					>
 						&#43;
 					</div>
 				</div>
 			</div>
 			<div className="row-span-5 col-span-7 border border-solid border-white bg-white">
 				<div className="bg-white border border-zinc-400 border-solid border-b-1 border-t-0 border-l-0 border-r-0">
-					<div className="ml-6 pt-4 pb-4 text-lg font-bold">{whoToChat.uid ? `Send to ${whoToChat.uid}` : "Send to User or Chat"}</div>
+					<div className="ml-6 pt-4 pb-4 text-lg font-bold">Channel Name or Contact Name</div>
 				</div>
 				<div className="mt-4 ml-6">Chat Field</div>
 			</div>
@@ -123,18 +137,13 @@ function Dashboard () {
 						&#43;
 					</div>
 				</div>
-                <div>
-                <DirectMessage setWhoToChat={setWhoToChat} />
-                </div>
 			</div>
 			<div className="w-full col-span-7 relative mb-4">
 				<textarea
 					placeholder="Message username/channel"
 					className="rounded-2xl w-full h-full bg-white col-span-7 border-2 border-gray-200 transition-all p-3 align-top focus:outline-none focus:ring ring-1 focus:ring-gray-600"
-                    value={message}
-                    onChange={handleChatChange}
-                />
-				<button className="bg-fuchsia-700 absolute top-0 right-0 h-full transition-all hover:bg-fuchsia-900 text-white font-semibold py-3 px-6 rounded-xl focus:outline-none focus:shadow-outline" onClick={handleSendMessage}>
+				/>
+				<button className="bg-fuchsia-700 absolute top-0 right-0 h-full transition-all hover:bg-fuchsia-900 text-white font-semibold py-3 px-6 rounded-xl focus:outline-none focus:shadow-outline">
 					<svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
 						<path
 							fillRule="evenodd"
@@ -146,8 +155,6 @@ function Dashboard () {
 			</div>
 		</div>
 	);
-
-
 }
 
 export default Dashboard;
