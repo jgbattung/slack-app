@@ -26,6 +26,8 @@ function Dashboard () {
     })
     const [message, setMessage] = useState('')
 
+	const userData = JSON.parse(localStorage.getItem('userLogIn')  || '{}')
+
     // return (
     //     <div className="flex flex-col justify-center items-center">
     //         <CreateChannel />
@@ -39,8 +41,12 @@ function Dashboard () {
         setMessage(e.target.value)
 	}
 
+	function handleLogOut (e: MouseEvent<HTMLElement>) {
+		console.log('logging out...')
+	}
+
     async function handleSendMessage (e: MouseEvent<HTMLElement>){
-        const userData = JSON.parse(localStorage.getItem('userLogIn')  || '{}')
+        
         const sendMessageResponse = await sendMessage({
             receiver_id: whoToChat.id,
             receiver_class: "User",
@@ -82,7 +88,7 @@ function Dashboard () {
 					/>
 				</div>
 				<div className="flex flex-row-reverse">
-					<div className="mr-10 place-self-end text-yellow-300 hover:text-yellow-600 cursor-pointer transition-all">
+					<div className="mr-10 place-self-end text-yellow-300 hover:text-yellow-600 cursor-pointer transition-all" onClick={handleLogOut}>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							className="h-6 w-6"
@@ -98,13 +104,13 @@ function Dashboard () {
 							/>
 						</svg>
 					</div>
-					<div className="mr-4 place-self-end">User ID</div>
+					<div className="mr-4 place-self-end">{userData.uid}</div>
 				</div>
 			</div>
 			<div className="row-span-2 col-span-1 bg-fuchsia-800 border border-solid border-b-0 border-l-0 border-white">
 				<div className="flex items-center">
 					<div className="flex justify-left mt-4 ml-6 text-white text-md font-medium">Channels</div>
-					<div className="flex justify-right mt-4 ml-2 text-yellow-300 text-2xl font-black hover:text-yellow-600 cursor-pointer transition-all">
+					<div className="flex justify-right mt-4 ml-2 text-yellow-300 text-2xl font-black hover:text-yellow-600 cursor-pointer transition-all" >
 						&#43;
 					</div>
 				</div>
