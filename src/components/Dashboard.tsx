@@ -1,4 +1,5 @@
 import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import CreateChannel from './CreateChannel';
 import DirectMessage from './DirectMessage';
 import RealTimeChat from './RealTimeChat';
@@ -18,16 +19,18 @@ interface sendMessageTypes {
 }
 
 function Dashboard (props: any) {
+	let history = useHistory();
+
 	const [ whoToChat, setWhoToChat ] = useState({
 		uid: '',
 		id: 0
 	});
-	const [ usersListOfUID, setUsersListOfUID ] = useState(
-		{
-			// this is for the channels
-		}
-	);
+	const [ usersListOfUID, setUsersListOfUID ] = useState({});
 	const [ message, setMessage ] = useState('');
+
+	useEffect( () => {
+		// console.log(usersListOfUID)
+	},[usersListOfUID])
 
 	const userData = JSON.parse(localStorage.getItem('userLogIn')  || '{}')
 
@@ -37,6 +40,16 @@ function Dashboard (props: any) {
 	
 	function handleLogOut (e: MouseEvent<HTMLElement>) {
 		console.log('logging out...')
+		localStorage.setItem('userLogIn', JSON.stringify({
+			"access_token": "",
+			"client": "",
+			"data": {},
+			"errors": [],
+			"expiry": "",
+			"success": true,
+			"uid": ""
+		}))
+		history.push('/')
 	}
 
 	async function handleSendMessage (e: MouseEvent<HTMLElement>) {
@@ -75,17 +88,9 @@ function Dashboard (props: any) {
 		setModalIsOpen(false);
 	}
 
-	useEffect(
-		() => {
-			// call the send message utility function here
-			console.log(whoToChat.uid);
-		},
-		[ whoToChat ]
-	);
-
 	return (
 		<div className="w-screen h-screen grid grid-rows-7 grid-cols-8 bg-white">
-			{modalIsOpen && <Modal onCancel={closeModal} />}
+			{modalIsOpen && <Modal onCancel={closeModal} usersListOfUID={usersListOfUID}/>}
 			<div className="grid grid-cols-3 place-content-around text-white row-span-1 col-span-8 bg-fuchsia-900 border border-t-0 border-b-0 border-l-0 border-solid border-white">
 				<div className="ml-10 place-self-start">
 					<img src={logo} className="w-32" alt="Slack Logo White" />
@@ -145,7 +150,7 @@ function Dashboard (props: any) {
 					</div>
 				</div>
 				<div>
-					<DirectMessage setWhoToChat={setWhoToChat} />
+					<DirectMessage setWhoToChat={setWhoToChat} setUsersListOfUID={setUsersListOfUID}/>
 				</div>
 			</div>
 			<div className="w-full col-span-7 relative mb-4">

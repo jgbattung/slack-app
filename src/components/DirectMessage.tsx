@@ -20,11 +20,12 @@ interface listOfUsersParams {
 
 interface directMessageProps {
 	setWhoToChat: React.Dispatch<React.SetStateAction<{ uid: string; id: number }>>;
+	setUsersListOfUID: React.Dispatch<React.SetStateAction<[]>>;
 }
 // ------API type
 
 function DirectMessage (props: directMessageProps) {
-	const { setWhoToChat } = props;
+	const { setWhoToChat, setUsersListOfUID } = props;
 
 	// ------API register user
 	const [ userData, setUserData ] = useState<apiResponseTypes>({
@@ -40,6 +41,7 @@ function DirectMessage (props: directMessageProps) {
 		const getUsers = async (userData: listOfUsersParams) => {
 			const response = await listOfAllUsers(userData);
 			setUserData(response);
+			setUsersListOfUID(response.data)
 		};
 		getUsers(userData);
 	}, []);
