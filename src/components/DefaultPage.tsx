@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from '../assets/logo.png';
 import { Link } from 'react-router-dom';
+import appScreenshot from '../assets/app.png';
 
 function DefaultPage () {
 	return (
@@ -47,7 +48,9 @@ function DefaultPage () {
 					<div className="absolute top-0 -right-4 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000" />
 					<div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000" />
 					<div className="m-8 relative space-y-4">
-						<div className="flex items-center justify-center">SCREENSHOT OF APP HERE</div>
+						<div className="flex items-center justify-center">
+							<img className="rounded-lg w-maximum" src={appScreenshot} />
+						</div>
 					</div>
 				</div>
 			</div>
