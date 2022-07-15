@@ -9,10 +9,10 @@ import DefaultPage from './components/DefaultPage';
 import Dashboard from './components/Dashboard';
 
 function App () {
-	const defaultPage = <DefaultPage />;
-	const registration = <Registration />;
-	const logIn = <Login />;
-	const dashboard = <Dashboard />;
+	const defaultPage = <DefaultPage />
+	const registration = <Registration />
+	const logIn = <Login />
+	const dashboard = <Dashboard />
 
 	return (
 		<div className="flex justify-center items-center">

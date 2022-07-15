@@ -3,13 +3,14 @@ import logo from '../assets/logo.png';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 
-import userRegistration from '../utilities/userRegistration';
+
+import userRegistration from "../utilities/userRegistration";
 
 // ------API type
 interface apiResponseTypes {
-	success?: boolean;
-	data: any;
-	errors: any;
+    success?: boolean;
+    data?: any;
+    errors?: any;
 }
 // ------API type
 

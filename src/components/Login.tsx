@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
+
 import logo from '../assets/logo.png';
 import logIn from '../utilities/logIn';
 
@@ -53,7 +53,7 @@ function Login () {
 		e.preventDefault();
 		console.log('logging in...');
 		const response = await logIn(formData);
-		console.log(response);
+		// console.log(response);
 		setLogInResponse(response);
 		if (logInResponse.success === false) {
 			setinvalidLogin(true);
@@ -61,7 +61,7 @@ function Login () {
 	}
 
 	// variables for rendering
-	const errors = logInResponse.errors;
+	// const errors = logInResponse.errors;
 
 	return (
 		<div className="flex flex-col items-center justify-center h-screen">

@@ -1,13 +1,64 @@
-import React, { useEffect, useState } from 'react';
+import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
+import CreateChannel from './CreateChannel';
 import DirectMessage from './DirectMessage';
 import RealTimeChat from './RealTimeChat';
 import logo from '../assets/logo-white.png';
+import sendMessage from '../utilities/sendMessage';
+import retrieveMessage from '../utilities/retrieveMessage';
 import Modal from '../ui/Modal';
+
+interface sendMessageTypes {
+	receiver_id: number;
+	receiver_class: 'User' | 'Class';
+	body: string;
+	access_token: string;
+	client: string;
+	expiry: string;
+	uid: string;
+}
 
 function Dashboard (props: any) {
 	const [ whoToChat, setWhoToChat ] = useState({
-		uid: ''
+		uid: '',
+		id: 0
 	});
+	const [ usersListOfUID, setUsersListOfUID ] = useState(
+		{
+			// this is for the channels
+		}
+	);
+	const [ message, setMessage ] = useState('');
+
+	function handleChatChange (e: ChangeEvent<HTMLTextAreaElement>) {
+		setMessage(e.target.value);
+	}
+
+	async function handleSendMessage (e: MouseEvent<HTMLElement>) {
+		const userData = JSON.parse(localStorage.getItem('userLogIn') || '{}');
+		const sendMessageResponse = await sendMessage({
+			receiver_id: whoToChat.id,
+			receiver_class: 'User',
+			body: message,
+			access_token: userData.access_token,
+			client: userData.client,
+			expiry: userData.expiry,
+			uid: userData.uid
+		});
+
+		if (sendMessageResponse.success) {
+			setMessage('');
+			const retrieveMessageResponse = await retrieveMessage({
+				receiver_id: whoToChat.id,
+				receiver_class: 'User',
+				access_token: userData.access_token,
+				client: userData.client,
+				expiry: userData.expiry,
+				uid: userData.uid
+			});
+
+			console.log(retrieveMessageResponse);
+		}
+	}
 
 	const [ modalIsOpen, setModalIsOpen ] = useState(false);
 
@@ -107,31 +158,3 @@ function Dashboard (props: any) {
 }
 
 export default Dashboard;
-
-// import { useEffect, useState } from 'react';
-// import DirectMessage from './DirectMessage';
-// import RealTimeChat from './RealTimeChat';
-
-// function Dashboard () {
-// 	const [ whoToChat, setWhoToChat ] = useState({
-// 		uid: ''
-// 	});
-// 	useEffect(
-// 		() => {
-// 			// call the send message utility function here
-// 			console.log(whoToChat.uid);
-// 		},
-// 		[ whoToChat ]
-// 	);
-
-// 	return (
-// 		<div className="grid grid-cols-3 w-full">
-// 			<div>Channel</div>
-// 			<div>RealTimeChat</div>
-// 			<div>{whoToChat.uid}</div>
-// 			<DirectMessage setWhoToChat={setWhoToChat} />
-// 		</div>
-// 	);
-// }
-
-// export default Dashboard;
