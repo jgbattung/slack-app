@@ -19,23 +19,46 @@ interface sendMessageTypes {
 }
 
 function Dashboard (props: any) {
+
 	const [ whoToChat, setWhoToChat ] = useState({
 		uid: '',
 		id: 0
 	});
-	const [ usersListOfUID, setUsersListOfUID ] = useState(
-		{
-			// this is for the channels
-		}
-	);
+	const [ usersListOfUID, setUsersListOfUID ] = useState({});
 	const [ message, setMessage ] = useState('');
+
+	const [chat, setChat] = useState([{
+		body: "",
+		created_at: "",
+		id: 0,
+		receiver: {uid: ""},
+		sender: {uid: ""}
+	}])
+	
+
+
+	const userData = JSON.parse(localStorage.getItem('userLogIn')  || '{}')
 
 	function handleChatChange (e: ChangeEvent<HTMLTextAreaElement>) {
 		setMessage(e.target.value);
 	}
+	
+	function handleLogOut (e: MouseEvent<HTMLElement>) {
+		console.log('logging out...')
+		localStorage.setItem('userLogIn', JSON.stringify({
+			"access_token": "",
+			"client": "",
+			"data": {},
+			"errors": [],
+			"expiry": "",
+			"success": true,
+			"uid": ""
+		}))
+		history.push('/')
+	}
 
 	async function handleSendMessage (e: MouseEvent<HTMLElement>) {
-		const userData = JSON.parse(localStorage.getItem('userLogIn') || '{}');
+		console.log('sending...')
 		const sendMessageResponse = await sendMessage({
 			receiver_id: whoToChat.id,
 			receiver_class: 'User',
@@ -47,6 +70,7 @@ function Dashboard (props: any) {
 		});
 
 		if (sendMessageResponse.success) {
+			console.log('retrieving...')
 			setMessage('');
 			const retrieveMessageResponse = await retrieveMessage({
 				receiver_id: whoToChat.id,
@@ -56,8 +80,8 @@ function Dashboard (props: any) {
 				expiry: userData.expiry,
 				uid: userData.uid
 			});
-
-			console.log(retrieveMessageResponse);
+			setChat(retrieveMessageResponse.data)
+			// console.log('retrieveMessageResponse',retrieveMessageResponse);
 		}
 	}
 
@@ -71,13 +95,22 @@ function Dashboard (props: any) {
 		setModalIsOpen(false);
 	}
 
-	useEffect(
-		() => {
-			// call the send message utility function here
-			console.log(whoToChat.uid);
-		},
-		[ whoToChat ]
-	);
+	const chatHistory = chat.map( (message, index)=>{
+		if (message.body === ""){
+			return <div key={message.id}></div>
+		} else if (message.receiver.uid != whoToChat.uid && message.sender.uid != userData.uid) {
+			return <div key={message.id}></div>
+		} else if (message.sender.uid === userData.uid){
+			// console.log('message.receiver.uid', message.receiver.uid)
+			// console.log('message.sender.uid', message.sender.uid)
+			return (
+				<div key={message.id} className="rounded-full bg-purple-500 w-1/3 m-2 p-2 px-5 self-end text-right">
+					<p className='text-xs'>{message.created_at}</p>
+					<h3 className='text-xl'>{message.body}</h3>
+				</div>
+			)
+		}
+	})
 
 	let history = useHistory();
 
@@ -89,7 +122,7 @@ function Dashboard (props: any) {
 
 	return (
 		<div className="w-screen h-screen grid grid-rows-7 grid-cols-8 bg-white">
-			{modalIsOpen && <Modal onCancel={closeModal} />}
+			{modalIsOpen && <Modal onCancel={closeModal} usersListOfUID={usersListOfUID}/>}
 			<div className="grid grid-cols-3 place-content-around text-white row-span-1 col-span-8 bg-fuchsia-900 border border-t-0 border-b-0 border-l-0 border-solid border-white">
 				<div className="ml-10 place-self-start">
 					<img src={logo} className="w-32" alt="Slack Logo White" />
@@ -121,7 +154,7 @@ function Dashboard (props: any) {
 							/>
 						</svg>
 					</div>
-					<div className="mr-4 place-self-end">User ID</div>
+					<div className="mr-4 place-self-end">{userData.uid}</div>
 				</div>
 			</div>
 			<div className="row-span-2 col-span-1 bg-fuchsia-800 border border-solid border-b-0 border-l-0 border-white">
@@ -141,7 +174,9 @@ function Dashboard (props: any) {
 						{whoToChat.uid ? `Send to ${whoToChat.uid}` : 'Send to User or Chat'}
 					</div>
 				</div>
-				<div className="mt-4 ml-6">Chat Field</div>
+				<div className="mt-4 ml-6 flex flex-col">
+				{chatHistory}
+				</div>
 			</div>
 
 			<div className="row-span-4 col-span-1 bg-fuchsia-800 border border-solid border-l-0 border-white">
@@ -152,7 +187,7 @@ function Dashboard (props: any) {
 					</div>
 				</div>
 				<div>
-					<DirectMessage setWhoToChat={setWhoToChat} />
+					<DirectMessage setWhoToChat={setWhoToChat} setUsersListOfUID={setUsersListOfUID} setChat={setChat}/>
 				</div>
 			</div>
 			<div className="w-full col-span-7 relative mb-4">
