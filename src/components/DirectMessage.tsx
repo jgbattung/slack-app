@@ -32,7 +32,7 @@ function DirectMessage (props: directMessageProps) {
 	const [ userData, setUserData ] = useState<apiResponseTypes>({
 		data: []
 	});
-	const [ listRange, setListRange ] = useState([ 0, 5 ]);
+	const [ listRange, setListRange ] = useState([ 1000, 1005 ]);
 
 	useEffect(() => {
 		// console.log('fetching')

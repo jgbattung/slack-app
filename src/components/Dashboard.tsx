@@ -98,7 +98,7 @@ function Dashboard (props: any) {
 			return <div key={message.id}></div>
 		} else if (message.receiver.uid != whoToChat.uid && message.sender.uid != userData.uid) {
 			return <div key={message.id}></div>
-		} else if (message.sender.uid === userData.uid){
+		} else if (message.sender.uid === userData.uid || message.receiver.uid === userData.uid){
 			// console.log('message.receiver.uid', message.receiver.uid)
 			// console.log('message.sender.uid', message.sender.uid)
 			return (
