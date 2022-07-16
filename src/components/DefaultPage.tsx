@@ -7,7 +7,7 @@ function DefaultPage () {
 	return (
 		<div className="h-screen w-screen bg-white">
 			{/* flex items-center justify-center overflow-hidden */}
-			<div className="grid grid-cols-2 w-full mt-20">
+			<div className="grid grid-cols-2 w-full mt-10">
 				<div className="ml-40">
 					<img src={logo} className="w-48" />
 				</div>

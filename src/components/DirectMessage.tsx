@@ -32,7 +32,7 @@ function DirectMessage (props: directMessageProps) {
 	const [ userData, setUserData ] = useState<apiResponseTypes>({
 		data: []
 	});
-	const [ listRange, setListRange ] = useState([ 1000, 1005 ]);
+
 
 	useEffect(() => {
 		// console.log('fetching')
@@ -58,26 +58,7 @@ function DirectMessage (props: directMessageProps) {
 		setWhoToChat({ uid: e.target.name, id: e.target.id });
 	}
 
-	function handleUp () {
-		setListRange((prevData) => {
-			if (prevData[0] === 0) {
-				return prevData;
-			}
-			return [ prevData[0] - 1, prevData[1] - 1 ];
-		});
-	}
-
-	function handleDown () {
-		setListRange((prevData) => {
-			if (prevData[1] === prevData.length - 1) {
-				return prevData;
-			}
-			return [ prevData[0] + 1, prevData[1] + 1 ];
-		});
-	}
-
-	const slicedData = userData.data.slice(listRange[0], listRange[1]);
-	const listOfUsers = slicedData.map((user: any, index: number) => {
+	const listOfUsers = userData.data.map((user: any, index: number) => {
 		return (
 			<button
 				className="rounded-full bg-purple-300 hover:ring-1 m-1 p-1 hover:ring-purple-600 truncate text-xs"
@@ -93,13 +74,7 @@ function DirectMessage (props: directMessageProps) {
 
 	return (
 		<div className="flex flex-col justify-between">
-			<button className="rounded-full bg-purple-300" onClick={handleUp}>
-				⮙
-			</button>
 			{listOfUsers.length === 0 ? <div>Loading...</div> : listOfUsers}
-			<button className="rounded-full bg-purple-300" onClick={handleDown}>
-				⮛
-			</button>
 		</div>
 	);
 }

@@ -65,7 +65,7 @@ function Login () {
 
 	return (
 		<div className="flex flex-col items-center justify-center h-screen">
-			<div className="flex justify-center w-72 m-auto">
+			<div className="flex justify-center md:w-52 lg:w-72= m-auto">
 				<img src={logo} className="object-cover" alt="Slack Logo" />
 			</div>
 			<div>

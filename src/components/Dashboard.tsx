@@ -7,6 +7,7 @@ import sendMessage from '../utilities/sendMessage';
 import retrieveMessage from '../utilities/retrieveMessage';
 import Modal from '../ui/Modal';
 import { useHistory, Link } from 'react-router-dom';
+import Channels from './Channels';
 
 interface sendMessageTypes {
 	receiver_id: number;
@@ -94,6 +95,8 @@ function Dashboard (props: any) {
 	}
 
 	const chatHistory = chat.map( (message, index)=>{
+		const dateCreated = (new Date(message.created_at)).toLocaleString()
+		console.log(message)
 		if (message.body === ""){
 			return <div key={message.id}></div>
 		} else if (message.receiver.uid != whoToChat.uid && message.sender.uid != userData.uid) {
@@ -103,7 +106,7 @@ function Dashboard (props: any) {
 			// console.log('message.sender.uid', message.sender.uid)
 			return (
 				<div key={message.id} className="rounded-full bg-purple-500 w-1/3 m-2 p-2 px-5 self-end text-right">
-					<p className='text-xs'>from {message.sender.uid} - {message.created_at}</p>
+					<p className='text-xs'>from {message.sender.uid} - {dateCreated}</p>
 					<h3 className='text-xl'>{message.body}</h3>
 				</div>
 			)
@@ -155,9 +158,11 @@ function Dashboard (props: any) {
 					<div className="mr-4 place-self-end">{userData.uid}</div>
 				</div>
 			</div>
-			<div className="row-span-2 col-span-1 bg-fuchsia-800 border border-solid border-b-0 border-l-0 border-white">
+
+			{/* Channels */}
+			<div className="row-span-2 col-span-1 bg-fuchsia-800 border border-solid border-b-0 border-l-0 border-white overflow-auto">
 				<div className="flex items-center">
-					<div className="flex justify-left mt-4 ml-6 text-white text-md font-medium">Channels</div>
+					<div className="flex justify-left mt-4 ml-6 text-white text-sm font-medium">Channels</div>
 					<div
 						onClick={openModal}
 						className="flex justify-right mt-4 ml-2 text-yellow-300 text-2xl font-black hover:text-yellow-600 cursor-pointer transition-all"
@@ -165,7 +170,19 @@ function Dashboard (props: any) {
 						&#43;
 					</div>
 				</div>
+				{/* <div>
+				<div className='rounded-full bg-purple-300 hover:ring-1 m-1 p-1 hover:ring-purple-600 truncate text-xs'>channel 1</div>
+				<div className='rounded-full bg-purple-300 hover:ring-1 m-1 p-1 hover:ring-purple-600 truncate text-xs'>channel 2</div>
+				<div className='rounded-full bg-purple-300 hover:ring-1 m-1 p-1 hover:ring-purple-600 truncate text-xs'>channel 3</div>
+				<div className='rounded-full bg-purple-300 hover:ring-1 m-1 p-1 hover:ring-purple-600 truncate text-xs'>channel 4</div>
+				<div className='rounded-full bg-purple-300 hover:ring-1 m-1 p-1 hover:ring-purple-600 truncate text-xs'>channel 5</div>
+				</div> */}
+				<div>
+					<Channels />
+				</div>
 			</div>
+
+			{/* Chat History */}
 			<div className="row-span-5 col-span-7 border border-solid border-white bg-white">
 				<div className="bg-white border border-zinc-400 border-solid border-b-1 border-t-0 border-l-0 border-r-0">
 					<div className="ml-6 pt-4 pb-4 text-lg font-bold">
@@ -177,9 +194,10 @@ function Dashboard (props: any) {
 				</div>
 			</div>
 
-			<div className="row-span-4 col-span-1 bg-fuchsia-800 border border-solid border-l-0 border-white">
+			{/* Direct Message */}
+			<div className="row-span-4 col-span-1 bg-fuchsia-800 border border-solid border-l-0 border-white overflow-auto">
 				<div className="flex items-center">
-					<div className="flex justify-left mt-4 ml-6 text-white text-md font-medium">Direct Message</div>
+					<div className="flex justify-left mt-4 ml-6 text-white text-sm font-medium">Direct Message</div>
 					<div className="flex flex-row-reverse mt-4 ml-2 text-yellow-300 text-2xl font-black hover:text-yellow-600 cursor-pointer transition-all">
 						&#43;
 					</div>
