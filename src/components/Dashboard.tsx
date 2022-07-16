@@ -1,5 +1,4 @@
 import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import CreateChannel from './CreateChannel';
 import DirectMessage from './DirectMessage';
 import RealTimeChat from './RealTimeChat';
@@ -7,6 +6,7 @@ import logo from '../assets/logo-white.png';
 import sendMessage from '../utilities/sendMessage';
 import retrieveMessage from '../utilities/retrieveMessage';
 import Modal from '../ui/Modal';
+import { useHistory, Link } from 'react-router-dom';
 
 interface sendMessageTypes {
 	receiver_id: number;
@@ -19,7 +19,6 @@ interface sendMessageTypes {
 }
 
 function Dashboard (props: any) {
-	let history = useHistory();
 
 	const [ whoToChat, setWhoToChat ] = useState({
 		uid: '',
@@ -113,6 +112,14 @@ function Dashboard (props: any) {
 		}
 	})
 
+	let history = useHistory();
+
+	function logoutHandler () {
+		localStorage.clear();
+		console.log('logout');
+		history.push('/');
+	}
+
 	return (
 		<div className="w-screen h-screen grid grid-rows-7 grid-cols-8 bg-white">
 			{modalIsOpen && <Modal onCancel={closeModal} usersListOfUID={usersListOfUID}/>}
@@ -128,7 +135,10 @@ function Dashboard (props: any) {
 					/>
 				</div>
 				<div className="flex flex-row-reverse">
-					<div className="mr-10 place-self-end text-yellow-300 hover:text-yellow-600 cursor-pointer transition-all" onClick={handleLogOut}>
+					<div
+						onClick={logoutHandler}
+						className="mr-10 place-self-end text-yellow-300 hover:text-yellow-600 cursor-pointer transition-all"
+					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							className="h-6 w-6"
