@@ -32,8 +32,8 @@ async function retrieveMessage (user: retrieveMessageParams) {
     const response = await fetch(`http://206.189.91.54/api/v1/messages?receiver_id=${user.receiver_id}&receiver_class=${user.receiver_class}`, apiSettings)
     const data = await response.json()
 
-    console.log(response)
-    console.log(data)
+    // console.log(response)
+    // console.log(data)
 
     const apiResponse = {
         success: response.ok,

@@ -28,9 +28,15 @@ function Dashboard (props: any) {
 	const [ usersListOfUID, setUsersListOfUID ] = useState({});
 	const [ message, setMessage ] = useState('');
 
-	useEffect( () => {
-		// console.log(usersListOfUID)
-	},[usersListOfUID])
+	const [chat, setChat] = useState([{
+		body: "",
+		created_at: "",
+		id: 0,
+		receiver: {uid: ""},
+		sender: {uid: ""}
+	}])
+	
+
 
 	const userData = JSON.parse(localStorage.getItem('userLogIn')  || '{}')
 
@@ -53,6 +59,7 @@ function Dashboard (props: any) {
 	}
 
 	async function handleSendMessage (e: MouseEvent<HTMLElement>) {
+		console.log('sending...')
 		const sendMessageResponse = await sendMessage({
 			receiver_id: whoToChat.id,
 			receiver_class: 'User',
@@ -64,6 +71,7 @@ function Dashboard (props: any) {
 		});
 
 		if (sendMessageResponse.success) {
+			console.log('retrieving...')
 			setMessage('');
 			const retrieveMessageResponse = await retrieveMessage({
 				receiver_id: whoToChat.id,
@@ -73,8 +81,8 @@ function Dashboard (props: any) {
 				expiry: userData.expiry,
 				uid: userData.uid
 			});
-
-			console.log(retrieveMessageResponse);
+			setChat(retrieveMessageResponse.data)
+			// console.log('retrieveMessageResponse',retrieveMessageResponse);
 		}
 	}
 
@@ -87,6 +95,23 @@ function Dashboard (props: any) {
 	function closeModal () {
 		setModalIsOpen(false);
 	}
+
+	const chatHistory = chat.map( (message, index)=>{
+		if (message.body === ""){
+			return <div key={message.id}></div>
+		} else if (message.receiver.uid != whoToChat.uid && message.sender.uid != userData.uid) {
+			return <div key={message.id}></div>
+		} else if (message.sender.uid === userData.uid){
+			// console.log('message.receiver.uid', message.receiver.uid)
+			// console.log('message.sender.uid', message.sender.uid)
+			return (
+				<div key={message.id} className="rounded-full bg-purple-500 w-1/3 m-2 p-2 px-5 self-end text-right">
+					<p className='text-xs'>{message.created_at}</p>
+					<h3 className='text-xl'>{message.body}</h3>
+				</div>
+			)
+		}
+	})
 
 	return (
 		<div className="w-screen h-screen grid grid-rows-7 grid-cols-8 bg-white">
@@ -139,7 +164,9 @@ function Dashboard (props: any) {
 						{whoToChat.uid ? `Send to ${whoToChat.uid}` : 'Send to User or Chat'}
 					</div>
 				</div>
-				<div className="mt-4 ml-6">Chat Field</div>
+				<div className="mt-4 ml-6 flex flex-col">
+				{chatHistory}
+				</div>
 			</div>
 
 			<div className="row-span-4 col-span-1 bg-fuchsia-800 border border-solid border-l-0 border-white">
@@ -150,7 +177,7 @@ function Dashboard (props: any) {
 					</div>
 				</div>
 				<div>
-					<DirectMessage setWhoToChat={setWhoToChat} setUsersListOfUID={setUsersListOfUID}/>
+					<DirectMessage setWhoToChat={setWhoToChat} setUsersListOfUID={setUsersListOfUID} setChat={setChat}/>
 				</div>
 			</div>
 			<div className="w-full col-span-7 relative mb-4">

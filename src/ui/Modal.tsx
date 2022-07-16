@@ -1,3 +1,4 @@
+import createChannelWithMembers from '../utilities/createChannelWithMembers';
 import { FormEvent, ChangeEvent, useState, useEffect } from 'react';
 
 function Modal (props: any) {
@@ -5,7 +6,7 @@ function Modal (props: any) {
 
 	const [ channelData, setChannelData ] = useState({
 		name: '',
-		user_ids: []
+		user_ids: ''
 	});
 
 	useEffect( () => {
@@ -20,9 +21,22 @@ function Modal (props: any) {
 		return <option value={user.id} key={user.id} >{user.uid}</option>
 	})
 
-	function handleCreateChannel (e: FormEvent<HTMLFormElement>) {
+	async function handleCreateChannel (e: FormEvent<HTMLFormElement>) {
 		e.preventDefault()
-		console.log(e)
+		console.log('channelData.name', channelData.name)
+		const userData = JSON.parse(localStorage.getItem('userLogIn')  || '{}')
+		const userID = userData.data.id
+		const params = {
+			access_token: userData.access_token,
+			client: userData.client,
+			expiry: userData.expiry,
+			uid: userData.uid,
+			name: channelData.name,
+			user_ids: [channelData.user_ids, userID]
+		}
+		const res = await createChannelWithMembers(params)
+		console.log(res)
+		props.onCancel();
 	}
 
 	function handleOnChangeChannelName (e: ChangeEvent<HTMLInputElement>) {
@@ -32,7 +46,6 @@ function Modal (props: any) {
 				[e.target.name]: e.target.value
 			};
 		});
-		// console.log(e)
 	}
 	
 	function handleOnChangeSelect (e: ChangeEvent<HTMLSelectElement>) {
@@ -68,8 +81,10 @@ function Modal (props: any) {
 				<select
 					className="shadow appearance-none text-base w-96 border rounded py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 					name="user_ids"
+					id="user_ids"
 					value={channelData.user_ids}
-					onSelect={handleOnChangeSelect}
+					// onSelect={handleOnChangeSelect}
+					onChange={handleOnChangeSelect}
 					// multiple
 					
 				>

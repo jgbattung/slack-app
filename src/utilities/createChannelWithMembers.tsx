@@ -4,7 +4,7 @@ interface createChannelWithMembersParams {
     expiry: string,
     uid: string,
     name: string,
-    user_ids: []
+    user_ids: any[]
 }
 
 
@@ -37,6 +37,9 @@ async function createChannelWithMembers (user: createChannelWithMembersParams) {
     };
     const response = await fetch('http://206.189.91.54/api/v1/channels', apiSettings);
 	const data = await response.json();
+
+    console.log(response)
+    console.log(data)
 
     const apiResponse = {
         success: response.ok,
