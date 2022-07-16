@@ -105,7 +105,7 @@ function Dashboard (props: any) {
 			// console.log('message.sender.uid', message.sender.uid)
 			return (
 				<div key={message.id} className="rounded-full bg-purple-500 w-1/3 m-2 p-2 px-5 self-end text-right">
-					<p className='text-xs'>{message.created_at}</p>
+					<p className='text-xs'>from {message.sender.uid} - {message.created_at}</p>
 					<h3 className='text-xl'>{message.body}</h3>
 				</div>
 			)
