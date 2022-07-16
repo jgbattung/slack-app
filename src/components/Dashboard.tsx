@@ -34,8 +34,6 @@ function Dashboard (props: any) {
 		receiver: {uid: ""},
 		sender: {uid: ""}
 	}])
-	
-
 
 	const userData = JSON.parse(localStorage.getItem('userLogIn')  || '{}')
 
